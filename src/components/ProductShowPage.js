@@ -11,13 +11,32 @@ class ProductShowPage extends Component {
         ...aProduct,
       },
     };
+    this.deleteReview = this.deleteReview.bind(this);
   }
+
+  deleteReview(reviewId) {
+    const {
+      product,
+      product: { reviews },
+    } = this.state;
+
+    this.setState({
+      product: {
+        ...product,
+        reviews: reviews.filter(r => r.id !== reviewId),
+      },
+    });
+  }
+
   render() {
     const { product } = this.state;
     return (
       <div className="ProductShowPage">
         <ProductDetails {...product} />
-        <ReviewList reviews={product.reviews} />
+        <ReviewList
+          onReviewDeleteClick={this.deleteReview}
+          reviews={product.reviews}
+        />
       </div>
     );
   }
