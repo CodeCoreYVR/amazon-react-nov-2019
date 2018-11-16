@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import productList from '../data/productList';
 
 class ProductIndexPage extends Component {
@@ -27,7 +28,7 @@ class ProductIndexPage extends Component {
               <small>
                 <em>{product.id}</em>
               </small>{' '}
-              <a href="#">{product.title}</a>
+              <Link to={`/products/${product.id}`}>{product.title}</Link>
               <button onClick={() => this.deleteProduct(product.id)}>
                 Delete
               </button>
