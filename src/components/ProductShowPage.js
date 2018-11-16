@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import ProductDetails from './ProductDetails';
 import ReviewList from './ReviewList';
-import aProduct from '../data/product';
+import { Product } from '../requests';
 
 class ProductShowPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      product: {
-        ...aProduct,
-      },
+      isLoading: true,
+      product: null,
     };
     this.deleteReview = this.deleteReview.bind(this);
   }
@@ -28,8 +27,20 @@ class ProductShowPage extends Component {
     });
   }
 
+  componentDidMount() {
+    Product.one(this.props.match.params.id).then(product => {
+      this.setState({
+        isLoading: false,
+        product,
+      });
+    });
+  }
+
   render() {
-    const { product } = this.state;
+    const { product, isLoading } = this.state;
+    if (isLoading) {
+      return <div>Loading....</div>;
+    }
     return (
       <div className="ProductShowPage">
         <ProductDetails {...product} />
