@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import productList from '../data/productList';
+import { Product } from '../requests';
 
 class ProductIndexPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      products: [...productList],
+      products: [],
     };
 
     this.deleteProduct = this.deleteProduct.bind(this);
@@ -15,6 +15,12 @@ class ProductIndexPage extends Component {
   deleteProduct(productId) {
     this.setState({
       products: this.state.products.filter(q => q.id !== productId),
+    });
+  }
+
+  componentDidMount() {
+    Product.all().then(products => {
+      this.setState({ products });
     });
   }
 
