@@ -7,6 +7,7 @@ import SignInPage from './SignInPage';
 import HomePage from './HomePage';
 import NavBar from './NavBar';
 import { User, Session } from '../requests'
+import AuthRoute from './AuthRoute';
 
 class App extends Component {
   constructor(props) {
@@ -44,9 +45,24 @@ class App extends Component {
             <Route path="/session/new" exact render={
               (routeProps) => <SignInPage {...routeProps} onSignIn={this.getUser} />}
             />
-            <Route path="/products/new" component={NewProductPage} />
-            <Route path="/products/:id" component={ProductShowPage} />
-            <Route path="/products" exact component={ProductIndexPage} />
+            <AuthRoute
+              isAuth={currentUser}
+              path="/products/new"
+              exact
+              component={NewProductPage}
+            />
+            <AuthRoute
+              isAuth={currentUser}
+              path="/products/:id"
+              exact
+              component={ProductShowPage}
+            />
+            <AuthRoute
+              isAuth={currentUser}
+              path="/products"
+              exact
+              component={ProductIndexPage}
+            />
             <Route path="/" exact component={HomePage} />
           </Switch>
         </div>
