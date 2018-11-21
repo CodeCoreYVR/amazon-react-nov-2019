@@ -6,7 +6,7 @@ import NewProductPage from './NewProductPage';
 import SignInPage from './SignInPage';
 import HomePage from './HomePage';
 import NavBar from './NavBar';
-import { User } from '../requests'
+import { User, Session } from '../requests'
 
 class App extends Component {
   constructor(props) {
@@ -15,6 +15,11 @@ class App extends Component {
       currentUser: null
     }
     this.getUser = this.getUser.bind(this);
+    this.destroySession = this.destroySession.bind(this);
+  }
+
+  destroySession() {
+    Session.destroy().then(() => this.setState({ currentUser: null }));
   }
 
   getUser() {
@@ -34,7 +39,7 @@ class App extends Component {
     return (
       <Router>
         <div className="App">
-          <NavBar currentUser={currentUser} />
+          <NavBar currentUser={currentUser} onSignOut={this.destroySession} />
           <Switch>
             <Route path="/session/new" exact render={
               (routeProps) => <SignInPage {...routeProps} onSignIn={this.getUser} />}
