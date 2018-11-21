@@ -20,6 +20,9 @@ import { Session } from "../requests";
         });
          return;
       }
+      if (typeof this.props.onSignIn === 'function') {
+          this.props.onSignIn();
+      }
       this.props.history.push("/");
     });
   }
