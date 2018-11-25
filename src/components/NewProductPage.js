@@ -7,6 +7,7 @@ class NewProductPage extends Component {
     super(props);
     this.state = {
       ...initialProduct,
+      errors: [],
     };
     this.updateField = this.updateField.bind(this);
     this.createProduct = this.createProduct.bind(this);
@@ -22,7 +23,7 @@ class NewProductPage extends Component {
 
   createProduct(e) {
     e.preventDefault();
-    const product = this.state;
+    const { errors, ...product } = this.state;
     Session.create({
       email: 'js@winterfell.gov',
       password: 'supersecret',
@@ -32,8 +33,12 @@ class NewProductPage extends Component {
           ...product,
         });
       })
-      .then(({ id }) => {
-        this.props.history.push(`/products/${id}`);
+      .then(({ id, errors }) => {
+        if (errors) {
+          this.setState({ errors });
+        } else {
+          this.props.history.push(`/products/${id}`);
+        }
       });
   }
 
